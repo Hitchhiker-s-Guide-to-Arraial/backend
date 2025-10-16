@@ -18,10 +18,14 @@ router = APIRouter(tags=['Travel'])
 MESSAGE_NOT_FOUND = "Travel not found"
 
 
-@router.post("/test")
+@router.post("/create_travel", status_code=201)
 # Aqui por exemplo usamos o TestSchema para validar o input de criarmos um teste
-async def create_test(test: TestSchema, db: Session = Depends(get_db)):
+async def create_travel(test: TestSchema, db: Session = Depends(get_db)):
     return JSONResponse(status_code=201, content=jsonable_encoder(new_test(test=test, db=db).to_dict()))
+
+@router.get("/travels")
+async def get_all_travels(db: Session = Depends(get_db)):
+    return JSONResponse(status_code=200, content=jsonable_encoder([test.to_dict() for test in get_all_tests(db=db)]))
 
 @router.put("/test/{test_id}")
 async def modify_test(test_id: str, test: UpdateTestDescriptionSchema, db: Session = Depends(get_db)):
