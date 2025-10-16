@@ -17,22 +17,18 @@ class Travel(Base):
 
     user = relationship("User", back_populates="travels")
     
-    def get_all_travels_by_user(user_id: int, db: Session = Depends(get_db)):
-        """
-        Retorna todas as travels pertencentes a um user.
-        """
-        return db.query(Travel).filter(Travel.id_user == user_id).all()
-    
-    
-    def travel_by_user(user_id: int, travel_id: int, db: Session = Depends(get_db)):
-        """
-        Retorna uma travel específica pertencente a um user.
-        """
-        return (
-            db.query(Travel)
-            .filter(Travel.id == travel_id, Travel.id_user == user_id)
-            .first()
-        )
+    @staticmethod
+    def get_all_travels_by_user(db: Session, user_id: int):
+        """Retorna todas as viagens do utilizador."""
+        return db.query(Travel).filter(Travel.id_user == user_id, Travel.is_deleted == True).all()
+
+    @staticmethod
+    def get_travel(db: Session, travel_id: int):
+        """Retorna uma viagem específica do utilizador."""
+        return db.query(Travel).filter(
+            Travel.id == travel_id,
+            Travel.is_deleted == True
+        ).first()
 
     class Config:
         orm_mode = True
