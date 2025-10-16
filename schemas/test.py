@@ -14,11 +14,11 @@ class TestSchema(BaseModel):
     price: float
     
     # exemplo de um campo com um valor de exemplo para mostrar na documentação/ swagger
-    description: str = Field(..., example="This is a sample description.")
+    #description: str = Field(..., example="This is a sample description.")
     
     # exemplo de um campo com um valor por defeito
-    available: bool = Field(..., default=True)
+    #available: bool = Field(..., default=True)
 
 class UpdateTestDescriptionSchema(BaseModel):
     id: int
-    description: str = Field(..., example="This is a sample description.")
+    name: str = Field(..., example="This is a sample name.")
