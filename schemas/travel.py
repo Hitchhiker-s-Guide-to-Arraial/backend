@@ -49,6 +49,7 @@ class AccommodationRead(AccommodationBase):
 class TravelBase(BaseModel):
     total_price: float = 0
     total_expenses: float = 0
+    qty_passangers: int
     is_finished: bool = False
     is_deleted: bool = False
 

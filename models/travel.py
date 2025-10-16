@@ -11,6 +11,7 @@ class Travel(Base):
     id = Column(Integer, primary_key=True, index=True)
     total_price = Column(Float, nullable=False)
     total_expenses = Column(Float, nullable=False)
+    qty_passangers = Column(Integer, nullable=False)
     is_finished = Column(Integer, default=0)
     is_deleted = Column(Integer, default=0)
     id_user = Column(Integer, ForeignKey("users.id"), nullable=False)
