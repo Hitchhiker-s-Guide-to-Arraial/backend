@@ -14,7 +14,7 @@ Nos ficheiros de router definimos os endpoints da API, para ser acessiveis.
 """
 
 # Importante incluir o router para depois ir para a main.py e a tag é usada na documentação/ swagger
-router = APIRouter(tags=['Travel'])
+router = APIRouter(prefix="/travels", tags=["Travels"])
 MESSAGE_NOT_FOUND = "Travel not found"
 
 
