@@ -29,7 +29,6 @@ app.add_middleware(
 )
 
 # Aqui incluimos a função do router do ficheiro que pretendemos usar
-app.include_router(prefix="/api", router=test.router)
 # Exemplo: app.include_router(prefix="/api", router=travel.router)
 #Base.metadata.create_all(bind=engine)
 app.include_router(prefix="/api", router=travel_router.router)
