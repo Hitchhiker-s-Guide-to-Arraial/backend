@@ -3,7 +3,6 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 from typing import List
-from uuid import UUID
 
 from db.database import get_db
 from services.testService import new_test, get_all_tests, get_test_by_id, delete_test, update_test
@@ -26,21 +25,21 @@ def list_travels(db=Depends(get_db)):
     return list_travels_service(db=db)
 
 @router.get("/{travel_id}", response_model=TravelOut)
-def get_travel(travel_id: UUID, db=Depends(get_db)):
+def get_travel(travel_id: int, db=Depends(get_db)):
     t = get_travel_service(travel_id=travel_id, db=db)
     if not t:
         raise HTTPException(status_code=404, detail="Travel not found")
     return t
 
 @router.put("/{travel_id}", response_model=TravelOut)
-def update_travel(travel_id: UUID, travel: TravelUpdate, db=Depends(get_db)):
+def update_travel(travel_id: int, travel: TravelUpdate, db=Depends(get_db)):
     t = update_travel_service(travel_id=travel_id, travel=travel, db=db)
     if not t:
         raise HTTPException(status_code=404, detail="Travel not found")
     return t
 
 @router.delete("/{travel_id}", response_model=TravelOut)
-def delete_travel(travel_id: UUID, db=Depends(get_db)):
+def delete_travel(travel_id: int, db=Depends(get_db)):
     t = delete_travel_service(travel_id=travel_id, db=db)
     if not t:
         raise HTTPException(status_code=404, detail="Travel not found")
