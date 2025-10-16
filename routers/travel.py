@@ -1,21 +1,55 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
+from typing import List
+from uuid import UUID
 
 from db.database import get_db
 from services.testService import new_test, get_all_tests, get_test_by_id, delete_test, update_test
 from schemas.test import TestSchema, UpdateTestDescriptionSchema
+from schemas.travel import TravelCreate, TravelOut, TravelUpdate
+from services.travelService import create_travel_service, list_travels_service, get_travel_service, update_travel_service, delete_travel_service
+
+# Importante incluir o router para depois ir para a main.py e a tag é usada na documentação/ swagger
+
+router = APIRouter(prefix="/travels", tags=["travels"])
+MESSAGE_NOT_FOUND = "Travel not found"
+
+@router.post("/", response_model=TravelOut, status_code=status.HTTP_201_CREATED)
+def create_travel(travel: TravelCreate, db=Depends(get_db)):
+    created = create_travel_service(travel=travel, db=db)
+    return created
+
+@router.get("/", response_model=List[TravelOut])
+def list_travels(db=Depends(get_db)):
+    return list_travels_service(db=db)
+
+@router.get("/{travel_id}", response_model=TravelOut)
+def get_travel(travel_id: UUID, db=Depends(get_db)):
+    t = get_travel_service(travel_id=travel_id, db=db)
+    if not t:
+        raise HTTPException(status_code=404, detail="Travel not found")
+    return t
+
+@router.put("/{travel_id}", response_model=TravelOut)
+def update_travel(travel_id: UUID, travel: TravelUpdate, db=Depends(get_db)):
+    t = update_travel_service(travel_id=travel_id, travel=travel, db=db)
+    if not t:
+        raise HTTPException(status_code=404, detail="Travel not found")
+    return t
+
+@router.delete("/{travel_id}", response_model=TravelOut)
+def delete_travel(travel_id: UUID, db=Depends(get_db)):
+    t = delete_travel_service(travel_id=travel_id, db=db)
+    if not t:
+        raise HTTPException(status_code=404, detail="Travel not found")
+    return t
 
 """
 Ficheiro de Router do Test
 
 Nos ficheiros de router definimos os endpoints da API, para ser acessiveis.
-"""
-
-# Importante incluir o router para depois ir para a main.py e a tag é usada na documentação/ swagger
-router = APIRouter(tags=['Travel'])
-MESSAGE_NOT_FOUND = "Travel not found"
 
 
 @router.post("/test")
@@ -50,3 +84,4 @@ async def fetch_test_by_id(test_id: str, db: Session = Depends(get_db)):
     if not existing_test:
         raise HTTPException(status_code=404, detail=MESSAGE_NOT_FOUND)
     return JSONResponse(status_code=200, content=jsonable_encoder(existing_test.to_dict()))
+"""
