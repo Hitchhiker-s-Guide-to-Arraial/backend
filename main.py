@@ -6,7 +6,7 @@ from db.database import SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 
 from db.create_database import create_tables
-from routers import (test, user, expenses)
+from routers import (test, user, expenses, travel as travel_router)
 
 
 @asynccontextmanager
@@ -30,8 +30,10 @@ app.add_middleware(
 
 # Aqui incluimos a função do router do ficheiro que pretendemos usar
 app.include_router(prefix="/api", router=test.router)
-app.include_router(prefix="/api", router=expenses.router)
 # Exemplo: app.include_router(prefix="/api", router=travel.router)
+#Base.metadata.create_all(bind=engine)
+app.include_router(prefix="/api", router=travel_router.router)
+app.include_router(prefix="/api", router=expenses.router)
 app.include_router(prefix="/api", router=user.router)
 
 @app.middleware("http")
