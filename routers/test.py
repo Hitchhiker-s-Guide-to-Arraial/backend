@@ -5,18 +5,26 @@ from starlette.responses import JSONResponse
 
 from db.database import get_db
 from services.testService import new_test, get_all_tests, get_test_by_id, delete_test, update_test
-from schemas.test import TestSchema
+from schemas.test import TestSchema, UpdateTestDescriptionSchema
 
+"""
+Ficheiro de Router do Test
+
+Nos ficheiros de router definimos os endpoints da API, para ser acessiveis.
+"""
+
+# Importante incluir o router para depois ir para a main.py e a tag é usada na documentação/ swagger
 router = APIRouter(tags=['Test'])
 MESSAGE_NOT_FOUND = "Test not found"
 
 
 @router.post("/test")
+# Aqui por exemplo usamos o TestSchema para validar o input de criarmos um teste
 async def create_test(test: TestSchema, db: Session = Depends(get_db)):
     return JSONResponse(status_code=201, content=jsonable_encoder(new_test(test=test, db=db).to_dict()))
 
 @router.put("/test/{test_id}")
-async def modify_test(test_id: str, test: TestSchema, db: Session = Depends(get_db)):
+async def modify_test(test_id: str, test: UpdateTestDescriptionSchema, db: Session = Depends(get_db)):
     existing_test = get_test_by_id(test_id=test_id, db=db)
     if not existing_test:
         raise HTTPException(status_code=404, detail=MESSAGE_NOT_FOUND)

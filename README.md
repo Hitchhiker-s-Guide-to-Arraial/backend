@@ -77,6 +77,16 @@ In case the full URL is not provided, the following individual parameters are us
 - `POSTGRES_HOST`: The host address for the PostgreSQL database.
 - `POSTGRES_PORT`: The port number for the PostgreSQL database.
 
+Example `.env` file:
+```
+POSTGRES_URL="postgresql://user:password@localhost:5432/mydatabase"
+POSTGRES_DB="mydatabase"
+POSTGRES_USER="user"
+POSTGRES_PASSWORD="password"
+POSTGRES_HOST="localhost"
+POSTGRES_PORT="5432"
+```
+
 ## Tech Stack
 
 - **Backend**: Python

@@ -28,7 +28,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Aqui incluimos a função do router do ficheiro que pretendemos usar
 app.include_router(prefix="/api", router=test.router)
+# Exemplo: app.include_router(prefix="/api", router=travel.router)
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
@@ -37,7 +39,7 @@ async def db_session_middleware(request: Request, call_next):
     request.state.db.close()
     return response
 
-
+# Endpoint de health se for preciso dar ping para verificar se funciona
 @app.get("/api/health")
 async def main():
     return {"Hello": "from my api!"}
