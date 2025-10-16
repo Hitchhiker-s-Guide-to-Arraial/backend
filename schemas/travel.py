@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from uuid import UUID
 from decimal import Decimal
 from typing import Optional
 
@@ -17,7 +16,7 @@ class TravelUpdate(BaseModel):
     is_finished: Optional[bool] = None
 
 class TravelOut(TravelBase):
-    id: UUID
+    id: int
     is_deleted: bool
 
     class Config:

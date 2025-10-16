@@ -1,9 +1,7 @@
 from typing import Optional
-import uuid
 from decimal import Decimal
 
-from sqlalchemy import Column, Boolean, Numeric
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, Boolean, Numeric, Integer
 from sqlalchemy.orm import Session
 
 from db.database import Base
@@ -12,7 +10,7 @@ from db.database import Base
 Travel model + helper functions.
 
 Columns:
-- id
+- id (Integer PK autoincrement)
 - total_price
 - total_expenses
 - is_finished
@@ -22,9 +20,9 @@ Columns:
 class Travel(Base):
     __tablename__ = "travels"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    total_price = Column(Numeric(12, 2), nullable=False, default=Decimal("0.00"))
-    total_expenses = Column(Numeric(12, 2), nullable=False, default=Decimal("0.00"))
+    id = Column(Integer, primary_key=True, index=True)
+    total_price = Column(Numeric(10, 2), nullable=False, default=Decimal("0.00"))
+    total_expenses = Column(Numeric(10, 2), nullable=False, default=Decimal("0.00"))
     is_finished = Column(Boolean, nullable=False, default=False)
     is_deleted = Column(Boolean, nullable=False, default=False)
 
@@ -76,7 +74,7 @@ def create_travel(db: Session, *, total_price: Decimal = Decimal("0.00"), total_
     return new
 
 
-def get_travel_by_id(db: Session, travel_id: uuid.UUID, include_deleted: bool = False) -> Optional[Travel]:
+def get_travel_by_id(db: Session, travel_id: int, include_deleted: bool = False) -> Optional[Travel]:
     q = db.query(Travel).filter(Travel.id == travel_id)
     if not include_deleted:
         q = q.filter(Travel.is_deleted == False)
