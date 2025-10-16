@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Numeric, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base
+from db.database import Base
 
 class Accommodation(Base):
     __tablename__ = "accommodations"
@@ -9,6 +9,6 @@ class Accommodation(Base):
     type = Column(String(50), nullable=False)
     lodging_price = Column(Numeric(10, 2), nullable=False)
     meal_price = Column(Numeric(10, 2), nullable=False)
-    travel_id = Column(Integer, ForeignKey("travels.id"))
+    travel_id = Column(Integer, ForeignKey("travels.id"), nullable=False)
 
     travel = relationship("Travel", back_populates="accommodations")

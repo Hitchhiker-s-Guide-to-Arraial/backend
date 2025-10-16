@@ -11,7 +11,7 @@ class Transport(Base):
     destination = Column(String(100), nullable=False)
     price = Column(Numeric(10, 2), nullable=False)
     type = Column(String(50), nullable=False)
-    travel_id = Column(Integer, ForeignKey("travels.id"))
+    travel_id = Column(Integer, ForeignKey("travels.id"), nullable=False)
 
     # Relação inversa (se definires em Travel)
     travel = relationship("Travel", back_populates="transports")
