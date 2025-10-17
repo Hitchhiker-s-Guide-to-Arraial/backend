@@ -56,7 +56,12 @@ class Travel(Base):
         """
         Retorna uma travel específica pertencente a um user.
         """
-        return db.query(Travel).filter(Travel.id == self.id).first()   
+        # Soft-delete: mark this instance as deleted and persist
+        self.is_deleted = True
+        db.add(self)
+        db.commit()
+        db.refresh(self)
+        return self
 
     def __repr__(self):
         return f"<Travel id={self.id} total_price={self.total_price} total_expenses={self.total_expenses} finished={self.is_finished} deleted={self.is_deleted} id_user={self.id_user} qty_passengers={self.qty_passengers}>"

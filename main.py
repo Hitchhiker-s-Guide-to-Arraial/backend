@@ -34,7 +34,7 @@ app.add_middleware(
 app.include_router(prefix="/api", router=travel_router.router)
 app.include_router(prefix="/api", router=expenses.router)
 app.include_router(prefix="/api", router=user.router)
-app.include_router(prefix="/api", router=travel.router)
+#app.include_router(prefix="/api", router=travel.router)
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
