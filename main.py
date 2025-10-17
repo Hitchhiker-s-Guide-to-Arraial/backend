@@ -6,11 +6,7 @@ from db.database import SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 
 from db.create_database import create_tables
-<<<<<<< HEAD
 from routers import (test, user, expenses, travel as travel_router)
-=======
-from routers import (test, user, expenses, travel)
->>>>>>> 4adcd83eaf536126c7bf3b38f727c0820af07474
 
 
 @asynccontextmanager
