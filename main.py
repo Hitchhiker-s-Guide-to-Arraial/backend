@@ -6,7 +6,11 @@ from db.database import SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 
 from db.create_database import create_tables
+<<<<<<< HEAD
 from routers import (test, user, expenses, travel as travel_router)
+=======
+from routers import (test, user, expenses, travel)
+>>>>>>> 4adcd83eaf536126c7bf3b38f727c0820af07474
 
 
 @asynccontextmanager
@@ -34,6 +38,7 @@ app.add_middleware(
 app.include_router(prefix="/api", router=travel_router.router)
 app.include_router(prefix="/api", router=expenses.router)
 app.include_router(prefix="/api", router=user.router)
+app.include_router(prefix="/api", router=travel.router)
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
