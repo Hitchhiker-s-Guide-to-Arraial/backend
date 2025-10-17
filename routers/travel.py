@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
+from typing import List
+
 
 from db.database import get_db
 from schemas.travel import TravelCreate, TravelOut, TravelUpdate, TravelRead

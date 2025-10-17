@@ -1,6 +1,25 @@
 from pydantic import BaseModel
+from decimal import Decimal
 from typing import Optional, List
 
+class TravelBase(BaseModel):
+    total_price: Optional[Decimal] = Decimal("0.00")
+    total_expenses: Optional[Decimal] = Decimal("0.00")
+    is_finished: Optional[bool] = False
+    is_deleted: Optional[bool] = False
+    qty_passengers: int
+
+class TravelCreate(TravelBase):
+    id_user: int
+
+class TravelOut(TravelBase):
+    id: int
+    is_deleted: bool
+
+class TravelUpdate(BaseModel):
+    total_price: Optional[Decimal] = None
+    total_expenses: Optional[Decimal] = None
+    is_finished: Optional[bool] = None
 
 # ===================
 # TRANSPORT SCHEMAS
@@ -10,6 +29,12 @@ class TransportBase(BaseModel):
     destination: str
     price: float
     type: str
+
+class TransportRead(TransportBase):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 
 class TransportCreate(TransportBase):
@@ -46,18 +71,13 @@ class AccommodationRead(AccommodationBase):
 # ===================
 # TRAVEL SCHEMAS
 # ===================
-class TravelBase(BaseModel):
-    total_price: float = 0
-    total_expenses: float = 0
-    qty_passangers: int
-    is_finished: bool = False
-    is_deleted: bool = False
 
 
+""""
 class TravelCreate(TravelBase):
     transports: Optional[List[TransportCreate]] = []
     accommodations: Optional[List[AccommodationCreate]] = []
-
+"""
 
 class TravelRead(TravelBase):
     id: int
