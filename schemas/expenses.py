@@ -4,6 +4,7 @@ class ExpenseSchema(BaseModel):
     travel_id: int
     name: str
     price: float
+    type: str
     
 
     
